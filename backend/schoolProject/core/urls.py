@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.schoolList, name='school-list'),
+    path('<int:pk>/', views.deleteSchool, name='school-delete'),
     
 ]
