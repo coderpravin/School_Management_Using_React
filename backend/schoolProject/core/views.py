@@ -3,7 +3,7 @@ from .models import School
 from .serializers import SchoolSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_200_OK
+from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 # Create your views here.
 
 @api_view(["GET"])
@@ -35,4 +35,12 @@ def editSchool(request,pk):
     except School.DoesNotExist: 
         return Response({'message' : 'School not preseny'}, status=HTTP_404_NOT_FOUND)
 
-        
+@api_view(["POST"])
+def AddSchool(request):
+    serializer = SchoolSerializer(data=request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)

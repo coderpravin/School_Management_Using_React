@@ -51,6 +51,27 @@ function App(){
     }
   };
 
+  const addSchool = async() =>{
+    try{
+      const name = prompt("Enter your name :")
+      const city = prompt("Enter your city :")
+
+      if (!name || !city) return;
+
+      const res = await axios.post("http://127.0.0.1:8000/add/",{
+        name: name,
+        city: city
+      });
+
+      //Frontend update UI
+      setSchools((prev) =>[...prev, res.data])
+
+    } catch(error){
+      console.error("The error is", error)
+    }
+    
+  };
+
   useEffect(() =>{
     fetchSchools();
   }, []);
@@ -88,7 +109,7 @@ function App(){
                   Edit
                 </button>
 
-                <button>Add</button>
+                <button onClick={addSchool}>Add </button>
 
               </td>
             </tr>
